@@ -36,6 +36,22 @@ app.post("/products", (req, res) => {
         id: +new Date(),
         title: req.body.title,
     };
+    products.push(newProduct);
+    res.status(201).send(newProduct);
+});
+app.put("/products/:id", (req, res) => {
+    let product = products.find((p) => p.id === +req.params.id);
+    if (!req.body.title) {
+        return res.status(400).send('Отсутствует обязательное поле "title"');
+    }
+    if (!product) {
+        res.send(404);
+    }
+    else {
+        product.title = req.body.title.toString();
+        //   products.push(newProduct);
+        res.status(200).send(product);
+    }
 });
 app.get("/products/:id", (req, res) => {
     let product = products.find((p) => p.id === +req.params.id);
